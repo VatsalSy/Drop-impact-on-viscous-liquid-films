@@ -1,5 +1,12 @@
 # Drop Impact on Viscous Liquid Films
 
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![DOI](https://zenodo.org/badge/DOI/10.1017/jfm.2023.13.svg)](https://doi.org/10.1017/jfm.2023.13)
+[![GitHub release](https://img.shields.io/github/v/release/VatsalSy/Drop-impact-on-viscous-liquid-films)](https://github.com/VatsalSy/Drop-impact-on-viscous-liquid-films/releases)
+[![Basilisk](https://img.shields.io/badge/Powered%20by-Basilisk-green)](http://basilisk.fr)
+[![OpenMP](https://img.shields.io/badge/Parallel-OpenMP-orange)](http://openmp.org)
+[![MPI](https://img.shields.io/badge/Parallel-MPI-orange)](https://www.open-mpi.org)
+
 ## Overview
 This repository contains the code for simulating drop impacts on viscous liquid films. The code used in the paper "Drop impact on viscous liquid films" by Sanjay et al. (2022) is available as version [v1.0.0](https://github.com/VatsalSy/Drop-impact-on-viscous-liquid-films/releases/tag/v1.0.0).
 
