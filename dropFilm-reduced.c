@@ -26,7 +26,7 @@ version 2.0
 #define FILTERED
 #include "two-phaseTF.h"
 #include "tension.h"
-#include "reduced-gravity.h"
+#include "reduced-three-phase-nonCoalescing.h"
 
 // Error tolerances
 #define fErr (1e-3)                                 // error tolerance in VOF
@@ -175,7 +175,7 @@ event writingFiles (t = 0, t += tsnap; t <= tmax+tsnap) {
   dump (file = nameOut);
 }
 
-event logWriting (i+=100) {
+event logWriting (i++) {
   double ke = 0., vcm = 0., wt = 0.;
   foreach (reduction(+:ke), reduction(+:vcm), reduction(+:wt)){
     ke += 2*pi*y*(0.5*rho(f1[],f2[])*(sq(u.x[]) + sq(u.y[])))*sq(Delta);
