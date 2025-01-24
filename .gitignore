@@ -14,6 +14,7 @@
 **/*.json
 **/*.bv
 **/*.png
+**/_darcs
 
 # Custom executables (add your specific executable names here)
 dropFilm
@@ -23,6 +24,7 @@ dropFilm-reduced-gravity
 !*.c
 !*.h
 !*.sbatch
+!*.sh
 
 # Object files
 *.o
@@ -91,3 +93,6 @@ deps/
 .Trashes
 ehthumbs.db
 Thumbs.db
+dump
+log
+.project_config

@@ -61,15 +61,15 @@ int main(int argc, char const *argv[]) {
   system(comm);
 
   // Default values for all parameters
-  int MAXlevel = 8;  // Default maximum refinement level
-  double tmax = 1.0;  // Default simulation end time
-  double We = 4.0;   // Default Weber number
-  double Ohd = 1e-2; // Default Ohnesorge number (drop)
-  double Bo = 0.25;   // Default Bond number
-  double Ohf = 1e-2; // Default Ohnesorge number (film)
-  double hf = 0.25;    // Default film thickness
-  double rhof = 1.0;  // Default film density
-  double sigma23 = 1.0; // Default surface tension ratio
+  MAXlevel = 8;  // Default maximum refinement level
+  tmax = 1.0;  // Default simulation end time
+  We = 4.0;   // Default Weber number
+  Ohd = 1e-2; // Default Ohnesorge number (drop)
+  Bo = 0.25;   // Default Bond number
+  Ohf = 1e-2; // Default Ohnesorge number (film)
+  hf = 0.25;    // Default film thickness
+  rhof = 1.0;  // Default film density
+  sigma23 = 1.0; // Default surface tension ratio
 
   // Print usage if help is requested
   if (argc == 2 && (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0)) {
@@ -105,7 +105,7 @@ int main(int argc, char const *argv[]) {
 
   L0=Ldomain;
   X0=-hf; Y0=0.;
-  init_grid (1 << (MINlevel));
+  init_grid (1 << (6));
 
   // drop properties.
   rho1 = 1.0; mu1 = Ohd; 
@@ -167,7 +167,7 @@ event adapt(i++){
 }
 // Outputs
 // static
-event writingFiles (i = 0, t += tsnap; t <= tmax) {
+event writingFiles (t = 0, t += tsnap; t <= tmax+tsnap) {
   dump (file = "dump");
   char nameOut[80];
   sprintf (nameOut, "intermediate/snapshot-%5.4f", t);
