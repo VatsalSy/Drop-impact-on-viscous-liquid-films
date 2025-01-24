@@ -1,0 +1,15 @@
+#!/bin/bash
+
+MAXlevel="12"
+tmax="2.5"
+We="4.0"
+Ohd="0.034"
+Bo="0.5"
+Ohf="0.670"
+hf="0.10"
+rhof="1.0"
+sigma23="1e0"
+
+
+CC99='mpicc -std=c99' qcc -Wall -O2 -D_MPI=1 -disable-dimensions dropFilm.c -o dropFilm -lm
+mpirun -np 4 ./dropFilm $MAXlevel $tmax $We $Ohd $Bo $Ohf $hf $rhof $sigma23
