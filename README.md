@@ -6,6 +6,7 @@
 [![Basilisk](https://img.shields.io/badge/Powered%20by-Basilisk-green)](http://basilisk.fr)
 [![OpenMP](https://img.shields.io/badge/Parallel-OpenMP-orange)](http://openmp.org)
 [![MPI](https://img.shields.io/badge/Parallel-MPI-orange)](https://www.open-mpi.org)
+[![Issues](https://img.shields.io/github/issues/VatsalSy/Drop-impact-on-viscous-liquid-films)](https://github.com/VatsalSy/Drop-impact-on-viscous-liquid-films/issues)
 
 ## Overview
 This repository contains the code for simulating drop impacts on viscous liquid films. The code used in the paper "Drop impact on viscous liquid films" by Sanjay et al. (2022) is available as version [v1.0.0](https://github.com/VatsalSy/Drop-impact-on-viscous-liquid-films/releases/tag/v1.0.0).
@@ -82,3 +83,32 @@ bash job-openMPI.sh
 
 ## License Information
 The codes are developed using [Basilisk C](http://basilisk.fr), which is a [free software program](https://en.wikipedia.org/wiki/Free_software). In that spirit, this repository is also part of the free software program.
+
+## Contributing and Feedback
+
+We welcome various types of contributions and feedback. Please use our issue templates to ensure your feedback is addressed effectively:
+
+### Issue Templates
+
+1. **🐛 Bug Reports** - [`[New Bug Report]`](../../issues/new?template=bug_report.md)
+   - For reporting code issues, compilation errors, or unexpected behavior
+   - Include system information and steps to reproduce
+   - Attach relevant logs and screenshots
+
+2. **✨ Feature Requests** - [`[New Feature Request]`](../../issues/new?template=feature_request.md)
+   - Suggest new features or improvements
+   - Describe the problem you're trying to solve
+   - Share implementation ideas if you have any
+
+3. **🔬 Scientific Comments** - [`[New Scientific Comment]`](../../issues/new?template=scientific_comment.md)
+   - Discuss scientific aspects of the simulation
+   - Share observations about numerical methods
+   - Suggest improvements to physical modeling
+   - Provide references and supporting evidence
+
+4. **💭 Open Discussions** - [`[New Discussion]`](../../issues/new?template=open_discussion.md)
+   - Start general discussions about the project
+   - Ask questions about implementation details
+   - Share your experience using the code
+
+Click on the links above to create a new issue using the corresponding template. This helps us better understand and address your feedback.
