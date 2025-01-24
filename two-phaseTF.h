@@ -1,5 +1,11 @@
 /**
-# Two-phase interfacial flows
+# Three-phase interfacial flows: two phases (f1, f2) are non-coalescing and the third (f1 = f2 = 0) is always air
+
+# Version 2.0
+# Author: Vatsal Sanjay
+# vatsalsanjay@gmail.com
+# Physics of Fluids
+# Last Updated: Jan 24, 2025
 
 The interface between the fluids is tracked with a Volume-Of-Fluid
 method. The volume fraction in drop is $f1=1$ and $f2=0$. In the thin film, it is $f2=1$ and $f1=0$. Air (fluid 3) is $f1 = f2 = 0$. The densities and dynamic viscosities for fluid 1 and 2 are *rho1*, *mu1*, *rho3*, *mu2*, respectively.
@@ -11,7 +17,7 @@ method. The volume fraction in drop is $f1=1$ and $f2=0$. In the thin film, it i
 Instead of one VoF tracer, we define two, f1 and f2.
 */
 scalar f1[], f2[], *interfaces = {f1, f2};
-double rho1 = 1., mu1 = 0., rho3 = 1., mu2 = 0., mu3 = 0.;
+double rho1 = 1., mu1 = 0., rho2 = 1., mu2 = 0., rho3 = 1., mu3 = 0.;
 /**
 Auxilliary fields are necessary to define the (variable) specific
 volume $\alpha=1/\rho$ as well as the cell-centered density. */
@@ -24,21 +30,21 @@ event defaults (i = 0) {
   /**
   If the viscosity is non-zero, we need to allocate the face-centered
   viscosity field. */
-  if (mu1 || mu2)
-    mu = new face vector;
+  mu = new face vector;
 }
 
 /**
 The density and viscosity are defined using arithmetic averages by
 default. The user can overload these definitions to use other types of
 averages (i.e. harmonic). The difference comes in how we call these averages.
-$$
-\hat{A} = (f_1+f_2) + (1-f_1-f_2)\frac{A_g}{A_l}\,\,\,\forall\,\,\,A \in \{\mu,\rho\}
-$$
-*/
-
+ * For any property A ∈ {μ,ρ}, the value is calculated as:
+ * A = f₁A₁ + f₂A₂ + (1-f₁-f₂)A₃
+ * where f₁, f₂ are volume fractions for phases 1 and 2,
+ * A₁, A₂ are liquid properties (μ₁,μ₂ or ρ₁,ρ₂),
+ * A₃ is gas property (μ₃ or ρ₃)
+ */
 #ifndef rho
-#define rho(f) (clamp(f,0.,1.)*(rho1 - rho3) + rho3)
+#define rho(f1, f2)  (clamp(f1,0.,1.)*rho1 + clamp(f2,0.,1.)*rho2 + clamp(1.-f1-f2,0.,1.)*rho3)
 #endif
 #ifndef mu
 #define mu(f1, f2)  (clamp(f1,0.,1.)*mu1 + clamp(f2,0.,1.)*mu2 + clamp(1.-f1-f2,0.,1.)*mu3)
@@ -57,12 +63,11 @@ scalar sf1[], sf2[], *smearInterfaces = {sf1, sf2};
 scalar *smearInterfaces = {sf1, sf2};
 #endif
 
-event properties (i++) {
+event tracer_advection (i++) {
 
   /**
   When using smearing of the density jump, we initialise *sf* with the
   vertex-average of *f*. Introduce for loops to ensure that smearing is done properly. */
-
   #ifdef FILTERED
     int counter1 = 0;
     for (scalar sf in smearInterfaces){
@@ -93,29 +98,33 @@ event properties (i++) {
       }
     }
     #endif
+
   #if TREE
     for (scalar sf in smearInterfaces){
       sf.prolongation = refine_bilinear;
-      boundary ({sf});
+      sf.dirty = true; // boundary conditions need to be updated
     }
   #endif
+}
 
 
+event properties (i++) {
 
   foreach_face() {
     double ff1 = (sf1[] + sf1[-1])/2.;
     double ff2 = (sf2[] + sf2[-1])/2.;
-    alphav.x[] = fm.x[]/rho(ff1+ff2);
+    alphav.x[] = fm.x[]/rho(ff1, ff2);
     face vector muv = mu;
     muv.x[] = fm.x[]*mu(ff1, ff2);
   }
+
   foreach()
-    rhov[] = cm[]*rho(sf1[]+sf2[]);
+    rhov[] = cm[]*rho(sf1[], sf2[]);
 
 #if TREE
   for (scalar sf in smearInterfaces){
     sf.prolongation = fraction_refine;
-    boundary ({sf});
+    sf.dirty = true; // boundary conditions need to be updated
   }
 #endif
 }
