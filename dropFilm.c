@@ -177,7 +177,7 @@ event writingFiles (i = 0, t += tsnap; t <= tmax) {
 event logWriting (i+=100) {
   double ke = 0., vcm = 0., wt = 0.;
   foreach (reduction(+:ke), reduction(+:vcm), reduction(+:wt)){
-    ke += 2*pi*y*(0.5*rho(f1[]+f2[])*(sq(u.x[]) + sq(u.y[])))*sq(Delta);
+    ke += 2*pi*y*(0.5*rho(f1[],f2[])*(sq(u.x[]) + sq(u.y[])))*sq(Delta);
     vcm += 2*pi*y*(f1[]*u.x[])*sq(Delta);
     wt += 2*pi*y*f1[]*sq(Delta);
   }
