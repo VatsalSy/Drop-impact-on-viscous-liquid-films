@@ -97,3 +97,8 @@ dump
 log
 .project_config
 dropFilm-reduced
+
+# Network viewers are not shipped by this offline-only build.
+/basilisk/src/bview2D
+/basilisk/src/bview2Dm
+/basilisk/src/bview3D

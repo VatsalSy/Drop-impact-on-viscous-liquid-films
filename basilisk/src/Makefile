@@ -11,7 +11,7 @@ SUBDIRS = darcsit ast kdt wsServer gl
 
 .PHONY: subdirs $(SUBDIRS) $(TOPTARGETS)
 
-all: subdirs qcc literatec bview2D bview3D
+all: subdirs qcc literatec
 	@chmod +x ppm2mpeg ppm2mp4 ppm2ogv ppm2gif runtest page2html
 	@test -f xyz2kdt || ln -s kdt/xyz2kdt
 	@test -f kdtquery || ln -s kdt/kdtquery
