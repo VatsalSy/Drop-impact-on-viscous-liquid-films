@@ -1,3 +1,12 @@
+/*
+ * CoMPhy policy: this vendored interactive network viewer is disabled.
+ * Do not enable DISPLAY or build bview with this tree; use offline rendering.
+ */
+#error "Basilisk network display is disabled in this repository; use offline rendering."
+/* qcc reports the directive above and carries on: this stops the build. */
+char basilisk_network_display_is_disabled[-1];
+
+#if 0 /* Retained upstream source; not compiled. */
 /**
 # Server-side display
 
@@ -817,3 +826,5 @@ event refresh_display (i++, last)
     poll_elapsed = timer_elapsed (global_timer);
   }
 }
+
+#endif

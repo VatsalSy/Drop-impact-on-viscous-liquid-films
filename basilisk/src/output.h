@@ -1234,8 +1234,13 @@ bool restore (const char * file = "dump",
 	fprintf (ferr, "restore(): error: expecting len\n");
 	exit (1);
       }
-      char name[len + 1];
-      if (fread (name, sizeof(char), len, fp) < 1) {
+      /* A dump is external data: never size the stack from its fields. */
+      char name[4097];
+      if (len == 0 || len >= sizeof name) {
+	fprintf (ferr, "restore(): error: invalid field-name length\n");
+	exit (1);
+      }
+      if (fread (name, sizeof *name, len, fp) != len) {
 	fprintf (ferr, "restore(): error: expecting s.name\n");
 	exit (1);
       }
