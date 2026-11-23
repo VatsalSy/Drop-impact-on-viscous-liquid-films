@@ -3,9 +3,9 @@
 set -eu
 
 if [[ "${1:-}" == "--hard" ]]; then
-    make_flags=(-B)
+    hard=true
 elif [[ $# == 0 ]]; then
-    make_flags=()
+    hard=false
 else
     printf 'Usage: %s [--hard]\n' "$0" >&2
     exit 2
@@ -20,14 +20,25 @@ fi
 
 (
     cd -- "$basilisk"
-    if [[ ! -e config && ! -L config ]]; then
-        if [[ "$OSTYPE" == darwin* ]]; then
-            ln -s config.osx config
-        else
-            ln -s config.gcc config
-        fi
+    if [[ "$OSTYPE" == darwin* ]]; then
+        platform_config=config.osx
+    else
+        platform_config=config.gcc
     fi
-    make "${make_flags[@]}"
+    # The checkout carries the config link and binaries of the machine that
+    # committed them. Keep a custom config; point a stock one at this platform.
+    current_config=$(readlink config 2>/dev/null || true)
+    if [[ ! -e config && ! -L config ]] ||
+       [[ "$current_config" == config.osx || "$current_config" == config.gcc ]]; then
+        ln -sfn "$platform_config" config
+    fi
+    # Rebuild from source for --hard, or when the committed binaries cannot run
+    # here. "make -B" rebuilds ast/interpreter from the wrong directory and fails.
+    if [[ "$hard" == true ]] || ! ./qcc --version >/dev/null 2>&1; then
+        make clean
+        rm -f ast/grammar  # not removed by "make clean"; make rebuilds it
+    fi
+    make
 )
 
 "$basilisk/qcc" --version
